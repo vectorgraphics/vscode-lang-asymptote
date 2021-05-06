@@ -118,3 +118,6 @@ venv.bak/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+out/*.js
+out/*.js.map
