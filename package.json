@@ -15,6 +15,10 @@
     "categories": [
         "Programming Languages"
     ],
+    "activationEvents": [
+        "onLanguage:asymptote"
+    ],
+    "main": "./out/extension.js",
     "contributes": {
         "languages": [
             {
@@ -41,5 +45,13 @@
                 "path": "./syntaxes/asymptote.tmLanguage.json"
             }
         ]
+    },
+    "dependencies": {
+        "@types/node": "^15.0.2",
+        "@types/vscode": "^1.56.0",
+        "vscode-languageclient": "^7.0.0"
+    },
+    "scripts": {
+        "build": "tsc -p ./"
     }
 }
