@@ -2,7 +2,7 @@
     "name": "asymptote",
     "displayName": "Asymptote",
     "description": "Support for Asymptote, a vector graphics language.",
-    "version": "1.2.0",
+    "version": "1.3.0",
     "publisher": "supakornras",
     "repository": {
         "type": "git",
@@ -38,6 +38,26 @@
                 "language": "asymptote"
             }
         ],
+        "configuration": {
+            "title": "Asymptote",
+            "properties": {
+                "asymptote.WSLMode": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Starts Asymptote Server in WSL mode. This option is inert if not running on native Windows"
+                },
+                "asymptote.asyCmd": {
+                    "type": "string",
+                    "default": "asy",
+                    "description": "Command to asymptote executable"
+                },
+                "asymptote.additionalArgs": {
+                    "type": "array",
+                    "default": [],
+                    "description": "Additional options to pass to asymptote server."
+                }
+            }
+        },
         "grammars": [
             {
                 "language": "asymptote",
