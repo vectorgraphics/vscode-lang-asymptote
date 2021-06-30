@@ -3,18 +3,39 @@ import * as vscode from 'vscode';
 
 import {
     LanguageClient, LanguageClientOptions,
-    ServerOptions, SocketTransport, TransportKind
+    ServerOptions, NotificationType
 } from 'vscode-languageclient/node';
 
 let client: LanguageClient
 
-function getServerOpt(port: number): ServerOptions {
+function getServerOptTCP(port: number): ServerOptions {
     return function() {
         return new Promise((resolve, reject) => {
         const sock = new net.Socket();
         sock.connect(port, '127.0.0.1', () => resolve({reader: sock, writer: sock}));
         });
     }
+}
+
+function getServerOpt(cmd: string="asy", additionalArgs: string[]=[], wsl: boolean=false): ServerOptions {
+    // default args ["/mnt/d/Data/Source/asymptote/asy", "-lsp", "-noV", "-dir", "/mnt/d/Source/asymptote/base", "-wsl"]
+    let args = ['-lsp', '-noV']
+    args.push(...additionalArgs);
+    if (wsl) {
+        let cmdArr = [cmd];
+        cmdArr.push(...args);
+        cmdArr.push('-wsl');
+        return {
+            command: "wsl",
+            args: cmdArr
+        };
+    } else {
+        return {
+            command: cmd,
+            args: args
+        };
+    }
+
 }
 
 export function activate(context: vscode.ExtensionContext) {
@@ -24,12 +45,25 @@ export function activate(context: vscode.ExtensionContext) {
         outputChannelName: "[asylsp] AsymptoteLsp"
     };
 
-    client = new LanguageClient(`asylsp port (${port})`, getServerOpt(port), clientOpt);
+    let config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration('asymptote');
+
+    let useWsl: boolean | undefined = false;
+    if (process.platform === "win32") {
+        console.log('detecting windows...')
+        useWsl = config.get('WSLMode');
+    }
+
+    let asyCmd: string | undefined = config.get<string>('asyCmd');
+    let additionalArgs: string[] | undefined = config.get<string[]>('additionalArgs');
+
+    let serverOpt = getServerOpt(asyCmd, additionalArgs, useWsl);
+
+    client = new LanguageClient(`asylsp port (${port})`, serverOpt, clientOpt);
     context.subscriptions.push(client.start());
     console.log('asy lsp started');
 }
 
-export function deactivate() {
+export function deactivate(): Promise<void> | undefined {
     console.log('extension stopped')
     if (!client) {
         return undefined;
