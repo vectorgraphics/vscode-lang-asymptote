@@ -6,13 +6,25 @@
 	"version": "0.2.0",
     "configurations": [
         {
+            "name": "Extension (TCP Mode)",
+            "type": "extensionHost",
+            "request": "launch",
+            "runtimeExecutable": "${execPath}",
+            "args": [
+                "--extensionDevelopmentPath=${workspaceFolder}"
+            ],
+            "env": {
+                "FORCE_ASY_TCP_MODE": "true"
+            }
+        },
+        {
             "name": "Extension",
             "type": "extensionHost",
             "request": "launch",
             "runtimeExecutable": "${execPath}",
             "args": [
                 "--extensionDevelopmentPath=${workspaceFolder}"
-            ]
-        }
+            ],
+        },
     ]
 }
