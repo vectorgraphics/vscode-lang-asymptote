@@ -3,12 +3,12 @@ import * as vscode from 'vscode';
 
 import {
     LanguageClient, LanguageClientOptions,
-    ServerOptions, NotificationType
+    ServerOptions, Executable
 } from 'vscode-languageclient/node';
 
 let client: LanguageClient
 
-function getServerOptTCP(port: number): ServerOptions {
+function getServerOptTCP(port: number): () => Promise<any> {
     return function() {
         return new Promise((resolve, reject) => {
         const sock = new net.Socket();
@@ -17,7 +17,7 @@ function getServerOptTCP(port: number): ServerOptions {
     }
 }
 
-function getServerOpt(cmd: string="asy", additionalArgs: string[]=[], wsl: boolean=false): ServerOptions {
+function getServerOpt(cmd: string="asy", additionalArgs: string[]=[], wsl: boolean=false): Executable {
     // default args ["/mnt/d/Data/Source/asymptote/asy", "-lsp", "-noV", "-dir", "/mnt/d/Source/asymptote/base", "-wsl"]
     let args = ['-lsp', '-noV']
     args.push(...additionalArgs);
