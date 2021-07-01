@@ -56,7 +56,12 @@ export function activate(context: vscode.ExtensionContext) {
     let asyCmd: string | undefined = config.get<string>('asyCmd');
     let additionalArgs: string[] | undefined = config.get<string[]>('additionalArgs');
 
-    let serverOpt = getServerOpt(asyCmd, additionalArgs, useWsl);
+    let serverOpt: ServerOptions;
+    if (process.env.FORCE_ASY_TCP_MODE === "true") {
+        serverOpt = getServerOptTCP(10007)
+    } else {
+        serverOpt = getServerOpt(asyCmd, additionalArgs, useWsl);
+    }
 
     client = new LanguageClient(`asylsp port (${port})`, serverOpt, clientOpt);
     context.subscriptions.push(client.start());
