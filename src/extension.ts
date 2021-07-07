@@ -63,9 +63,12 @@ export function activate(context: vscode.ExtensionContext) {
         serverOpt = getServerOpt(asyCmd, additionalArgs, useWsl);
     }
 
-    client = new LanguageClient(`asylsp port (${port})`, serverOpt, clientOpt);
-    context.subscriptions.push(client.start());
-    console.log('asy lsp started');
+    if (config.get('analysisEngine')) {
+        client = new LanguageClient(`asylsp port (${port})`, serverOpt, clientOpt);
+        context.subscriptions.push(client.start());
+        console.log('asy lsp started');
+    }
+
 }
 
 export function deactivate(): Promise<void> | undefined {

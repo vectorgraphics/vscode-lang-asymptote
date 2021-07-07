@@ -41,6 +41,11 @@
         "configuration": {
             "title": "Asymptote",
             "properties": {
+                "asymptote.analysisEngine": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Enable Asymptote static analysis engine to provide variable signatures and definitions (Work in Progress)"
+                },
                 "asymptote.WSLMode": {
                     "type": "boolean",
                     "default": false,
