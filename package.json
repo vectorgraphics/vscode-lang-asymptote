@@ -38,7 +38,7 @@
             "properties": {
                 "asymptote.analysisEngine": {
                     "type": "boolean",
-                    "default": true,
+                    "default": false,
                     "description": "Enable Asymptote static analysis engine to provide variable signatures and definitions (Work in Progress)"
                 },
                 "asymptote.asyCmd": {
