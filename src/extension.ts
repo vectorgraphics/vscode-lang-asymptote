@@ -24,25 +24,14 @@ function getServerOptTCP(port: number): () => Promise<any> {
 function getServerOpt(
   cmd: string = "asy",
   additionalArgs: string[] = [],
-  wsl: boolean = false,
 ): Executable {
-  // default args ["/mnt/d/Data/Source/asymptote/asy", "-lsp", "-noV", "-dir", "/mnt/d/Source/asymptote/base", "-wsl"]
+  // default args ["/mnt/d/Data/Source/asymptote/asy", "-lsp", "-noV", "-dir", "/mnt/d/Source/asymptote/base"]
   let args = ["-lsp", "-noV"];
   args.push(...additionalArgs);
-  if (wsl) {
-    let cmdArr = [cmd];
-    cmdArr.push(...args);
-    cmdArr.push("-wsl");
-    return {
-      command: "wsl",
-      args: cmdArr,
-    };
-  } else {
-    return {
-      command: cmd,
-      args: args,
-    };
-  }
+  return {
+    command: cmd,
+    args: args,
+  };
 }
 
 export function activate(context: vscode.ExtensionContext) {
@@ -55,12 +44,6 @@ export function activate(context: vscode.ExtensionContext) {
   let config: vscode.WorkspaceConfiguration =
     vscode.workspace.getConfiguration("asymptote");
 
-  let useWsl: boolean | undefined = false;
-  if (process.platform === "win32") {
-    console.log("detecting windows...");
-    useWsl = config.get("WSLMode");
-  }
-
   let asyCmd: string | undefined = config.get<string>("asyCmd");
   let additionalArgs: string[] | undefined =
     config.get<string[]>("additionalArgs");
@@ -70,7 +53,7 @@ export function activate(context: vscode.ExtensionContext) {
     console.log("Starting in TCP mode...");
     serverOpt = getServerOptTCP(10007);
   } else {
-    serverOpt = getServerOpt(asyCmd, additionalArgs, useWsl);
+    serverOpt = getServerOpt(asyCmd, additionalArgs);
   }
 
   if (config.get("analysisEngine")) {

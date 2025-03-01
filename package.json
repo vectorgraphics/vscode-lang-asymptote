@@ -46,11 +46,6 @@
                     "default": true,
                     "description": "Enable Asymptote static analysis engine to provide variable signatures and definitions (Work in Progress)"
                 },
-                "asymptote.WSLMode": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Starts Asymptote Server in WSL mode. This option is inert if not running on native Windows"
-                },
                 "asymptote.asyCmd": {
                     "type": "string",
                     "default": "asy",
