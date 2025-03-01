@@ -111,7 +111,7 @@ def main():
         base_pattern.append({"include": "#prim_type_keywords"})
 
     base_grammar["patterns"] = base_pattern
-    final_output = json.dumps(base_grammar, indent=4)
+    final_output = json.dumps(base_grammar)
 
     print(final_output)
 
