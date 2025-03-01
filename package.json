@@ -33,11 +33,6 @@
                 "configuration": "./language-configuration.json"
             }
         ],
-        "breakpoints": [
-            {
-                "language": "asymptote"
-            }
-        ],
         "configuration": {
             "title": "Asymptote",
             "properties": {
