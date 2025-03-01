@@ -58,6 +58,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     let serverOpt: ServerOptions;
     if (process.env.FORCE_ASY_TCP_MODE === "true") {
+        console.log('Starting in TCP mode...')
         serverOpt = getServerOptTCP(10007)
     } else {
         serverOpt = getServerOpt(asyCmd, additionalArgs, useWsl);
@@ -68,7 +69,6 @@ export function activate(context: vscode.ExtensionContext) {
         context.subscriptions.push(client.start());
         console.log('asy lsp started');
     }
-
 }
 
 export function deactivate(): Promise<void> | undefined {
