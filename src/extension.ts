@@ -60,8 +60,8 @@ export function activate(context: vscode.ExtensionContext) {
     client = new LanguageClient(`asylsp port (${port})`, serverOpt, clientOpt);
     client.start().then( () => {
       console.log("asy lsp started");
-    }).catch( err => {
-      console.log("asy lsp error: " + err)
+    }).catch( (err: any) => {
+      console.error("asy lsp error: " + err.toString())
     })
   }
 }
