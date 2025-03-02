@@ -88,6 +88,8 @@
         "webpack-merge": "^6.0.1"
     },
     "scripts": {
-        "build": "tsc -p ./"
+        "build-dev": "webpack --config ./webpack.dev.js",
+        "build-production": "webpack --config ./webpack.production.js",
+        "vscode:prepublish": "npm run build-production"
     }
 }
