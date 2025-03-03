@@ -2,7 +2,7 @@
     "name": "asymptote",
     "displayName": "Asymptote",
     "description": "Support for Asymptote, a vector graphics language.",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "publisher": "supakornras",
     "repository": {
         "type": "git",
@@ -14,9 +14,6 @@
     },
     "categories": [
         "Programming Languages"
-    ],
-    "activationEvents": [
-        "onLanguage:asymptote"
     ],
     "main": "./dist/extension.js",
     "contributes": {
