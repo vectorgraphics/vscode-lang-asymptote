@@ -6,13 +6,14 @@ import {
   LanguageClientOptions,
   ServerOptions,
   Executable,
+  StreamInfo,
 } from "vscode-languageclient/node";
 
 let client: LanguageClient;
 
-function getServerOptTCP(port: number): () => Promise<any> {
+function getServerOptTCP(port: number): () => Promise<StreamInfo> {
   return function () {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, _reject) => {
       const sock = new net.Socket();
       sock.connect(port, "127.0.0.1", () =>
         resolve({ reader: sock, writer: sock }),
@@ -26,7 +27,7 @@ function getServerOpt(
   additionalArgs: string[] = [],
 ): Executable {
   // default args ["/mnt/d/Data/Source/asymptote/asy", "-lsp", "-noV", "-dir", "/mnt/d/Source/asymptote/base"]
-  let args = ["-lsp", "-noV"];
+  const args = ["-lsp", "-noV"];
   args.push(...additionalArgs);
   return {
     command: cmd,
@@ -34,18 +35,19 @@ function getServerOpt(
   };
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function activate(context: vscode.ExtensionContext) {
   const port = 10007;
-  let clientOpt: LanguageClientOptions = {
+  const clientOpt: LanguageClientOptions = {
     documentSelector: [{ language: "asymptote", scheme: "file" }],
     outputChannelName: "[asylsp] AsymptoteLsp",
   };
 
-  let config: vscode.WorkspaceConfiguration =
+  const config: vscode.WorkspaceConfiguration =
     vscode.workspace.getConfiguration("asymptote");
 
-  let asyCmd: string | undefined = config.get<string>("asyCmd");
-  let additionalArgs: string[] | undefined =
+  const asyCmd: string | undefined = config.get<string>("asyCmd");
+  const additionalArgs: string[] | undefined =
     config.get<string[]>("additionalArgs");
 
   let serverOpt: ServerOptions;
@@ -63,7 +65,7 @@ export function activate(context: vscode.ExtensionContext) {
       .then(() => {
         console.log("asy lsp started");
       })
-      .catch((err: any) => {
+      .catch((err) => {
         console.error("asy lsp error: " + err.toString());
       });
   }
