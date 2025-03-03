@@ -1,94 +1,94 @@
 {
-    "name": "asymptote",
-    "displayName": "Asymptote",
-    "description": "Support for Asymptote, a vector graphics language.",
-    "version": "2.0.1",
-    "publisher": "supakornras",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/vectorgraphics/vscode-lang-asymptote"
-    },
-    "license": "SEE LICENSE IN LICENSE.md",
-    "engines": {
-        "vscode": "^1.97.0"
-    },
-    "categories": [
-        "Programming Languages"
+  "name": "asymptote",
+  "displayName": "Asymptote",
+  "description": "Support for Asymptote, a vector graphics language.",
+  "version": "2.0.1",
+  "publisher": "supakornras",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vectorgraphics/vscode-lang-asymptote"
+  },
+  "license": "SEE LICENSE IN LICENSE.md",
+  "engines": {
+    "vscode": "^1.97.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "asymptote",
+        "aliases": [
+          "Asymptote",
+          "asymptote"
+        ],
+        "extensions": [
+          ".asy"
+        ],
+        "configuration": "./language-configuration.json"
+      }
     ],
-    "main": "./dist/extension.js",
-    "contributes": {
-        "languages": [
-            {
-                "id": "asymptote",
-                "aliases": [
-                    "Asymptote",
-                    "asymptote"
-                ],
-                "extensions": [
-                    ".asy"
-                ],
-                "configuration": "./language-configuration.json"
-            }
-        ],
-        "breakpoints": [
-            {
-                "language": "asymptote"
-            }
-        ],
-        "configuration": {
-            "title": "Asymptote",
-            "properties": {
-                "asymptote.analysisEngine": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Enable Asymptote static analysis engine to provide variable signatures and definitions (Work in Progress)"
-                },
-                "asymptote.asyCmd": {
-                    "type": "string",
-                    "default": "asy",
-                    "description": "Command to asymptote executable"
-                },
-                "asymptote.additionalArgs": {
-                    "type": "array",
-                    "default": [],
-                    "description": "Additional options to pass to asymptote server."
-                }
-            }
+    "breakpoints": [
+      {
+        "language": "asymptote"
+      }
+    ],
+    "configuration": {
+      "title": "Asymptote",
+      "properties": {
+        "asymptote.analysisEngine": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable Asymptote static analysis engine to provide variable signatures and definitions (Work in Progress)"
         },
-        "grammars": [
-            {
-                "language": "asymptote",
-                "scopeName": "source.asymptote",
-                "path": "./syntaxes/asymptote.tmLanguage.json"
-            }
-        ]
+        "asymptote.asyCmd": {
+          "type": "string",
+          "default": "asy",
+          "description": "Command to asymptote executable"
+        },
+        "asymptote.additionalArgs": {
+          "type": "array",
+          "default": [],
+          "description": "Additional options to pass to asymptote server."
+        }
+      }
     },
-    "dependencies": {
-        "asymptote": "file:",
-        "vscode-languageclient": "^9.0.1"
-    },
-    "devDependencies": {
-        "@eslint/js": "^9.21.0",
-        "@types/node": "^22.13.8",
-        "@types/vscode": "^1.97.0",
-        "@typescript-eslint/eslint-plugin": "^8.25.0",
-        "@typescript-eslint/parser": "^8.25.0",
-        "esbuild": "^0.25.0",
-        "eslint": "^9.21.0",
-        "eslint-config-prettier": "^10.0.2",
-        "globals": "^16.0.0",
-        "prettier": "^3.5.2",
-        "ts-loader": "^9.5.2",
-        "typescript-eslint": "^8.25.0",
-        "webpack": "^5.98.0",
-        "webpack-cli": "^6.0.1",
-        "webpack-merge": "^6.0.1"
-    },
-    "scripts": {
-        "build-dev": "webpack --config ./webpack.dev.js",
-        "build-production": "webpack --config ./webpack.production.js",
-        "vscode:prepublish": "npm run build-production",
-        "lint-fmt:check": "prettier . --check",
-        "lint-fmt": "prettier . --write"
-    }
+    "grammars": [
+      {
+        "language": "asymptote",
+        "scopeName": "source.asymptote",
+        "path": "./syntaxes/asymptote.tmLanguage.json"
+      }
+    ]
+  },
+  "dependencies": {
+    "asymptote": "file:",
+    "vscode-languageclient": "^9.0.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.21.0",
+    "@types/node": "^22.13.8",
+    "@types/vscode": "^1.97.0",
+    "@typescript-eslint/eslint-plugin": "^8.25.0",
+    "@typescript-eslint/parser": "^8.25.0",
+    "esbuild": "^0.25.0",
+    "eslint": "^9.21.0",
+    "eslint-config-prettier": "^10.0.2",
+    "globals": "^16.0.0",
+    "prettier": "^3.5.2",
+    "ts-loader": "^9.5.2",
+    "typescript-eslint": "^8.25.0",
+    "webpack": "^5.98.0",
+    "webpack-cli": "^6.0.1",
+    "webpack-merge": "^6.0.1"
+  },
+  "scripts": {
+    "build-dev": "webpack --config ./webpack.dev.js",
+    "build-production": "webpack --config ./webpack.production.js",
+    "vscode:prepublish": "npm run build-production",
+    "lint-fmt:check": "prettier . --check",
+    "lint-fmt": "prettier . --write"
+  }
 }
