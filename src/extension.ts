@@ -58,11 +58,14 @@ export function activate(context: vscode.ExtensionContext) {
 
   if (config.get("analysisEngine")) {
     client = new LanguageClient(`asylsp port (${port})`, serverOpt, clientOpt);
-    client.start().then( () => {
-      console.log("asy lsp started");
-    }).catch( (err: any) => {
-      console.error("asy lsp error: " + err.toString())
-    })
+    client
+      .start()
+      .then(() => {
+        console.log("asy lsp started");
+      })
+      .catch((err: any) => {
+        console.error("asy lsp error: " + err.toString());
+      });
   }
 }
 
