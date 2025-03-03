@@ -89,6 +89,7 @@
     "build-production": "webpack --config ./webpack.production.js",
     "vscode:prepublish": "npm run build-production",
     "lint-fmt:check": "prettier . --check",
-    "lint-fmt": "prettier . --write"
+    "lint-fmt": "prettier . --write",
+    "lint-eslint:check": "eslint --config eslint.config.mjs src"
   }
 }
