@@ -87,6 +87,8 @@
     "scripts": {
         "build-dev": "webpack --config ./webpack.dev.js",
         "build-production": "webpack --config ./webpack.production.js",
-        "vscode:prepublish": "npm run build-production"
+        "vscode:prepublish": "npm run build-production",
+        "lint-fmt:check": "prettier . --check",
+        "lint-fmt": "prettier . --write"
     }
 }
