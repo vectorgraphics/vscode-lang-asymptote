@@ -1,0 +1,24 @@
+name: lint-js
+
+on:
+  workflow_call:
+
+jobs:
+  run-eslint:
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - run: npm install
+      - name: run eslint
+        run: npm run lint-eslint:check
+  run-prettier:
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - run: npm install
+      - name: run prettier
+        run: npm run lint-fmt:check
