@@ -1,0 +1,15 @@
+name: pr-prechecks
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint-js:
+    uses: ./.github/workflows/lint-js.yml
+  precheck-pass:
+    needs:
+      - lint-js
+    runs-on: "ubuntu-22.04"
+    steps:
+      - run: echo All prechecks pass!
