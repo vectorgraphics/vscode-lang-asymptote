@@ -1,8 +1,24 @@
 # Change Log
 
-All notable changes to the "asymptote" extension will be documented in this file.
+## [2.X.X]
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+- Changed how string syntax highlighting works. Now, `""` will be treated as a regular string. To enable latex
+  highlighting, enclose the string in a `_tex` wrapper function, like
+
+  ```asymptote
+  string s = _tex("$\int_B f < I>");
+  ```
+
+  If `_tex` is not defined in asymptote, you can define it manually by
+
+  ```asymptote
+  string _tex(string s)
+  {
+    return s;
+  }
+  ```
+
+  Fixes [issues/7](https://github.com/vectorgraphics/vscode-lang-asymptote/issues/7).
 
 ## [2.0.0]
 
