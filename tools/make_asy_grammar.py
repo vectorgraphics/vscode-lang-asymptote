@@ -13,8 +13,8 @@ def generate_base_pattern():
         },
         {"match": r"\b(true|false)\b", "name": "constant.language"},
         {"begin": r"/\*", "end": r"\*/", "name": "comment.block"},
-        {"match": r'\s+"(.*)"', "name": "string.quoted.double"},
-        {"match": r"\'.*?\'", "name": "string.quoted.single"},
+        {"match": r'".*?(?<!\\)"', "name": "string.quoted.double"},
+        {"match": r"'.*?(?<!\\)'", "name": "string.quoted.single"},
         {
             "match": r"\b(if|else|while|for|do|break|return|continue|unravel)\b",
             "name": "keyword.control",
