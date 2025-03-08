@@ -14,12 +14,6 @@ def generate_base_pattern():
         {"match": r"\b(true|false)\b", "name": "constant.language"},
         {"begin": r"/\*", "end": r"\*/", "name": "comment.block"},
         {"match": r'\s+"(.*)"', "name": "string.quoted.double"},
-        {
-            "begin": r'(?<!\s)"{1}',
-            "end": r'"{1}',
-            "name": "string.quoted.double",
-            "patterns": [{"include": "text.tex.latex"}],
-        },
         {"match": r"\'.*?\'", "name": "string.quoted.single"},
         {
             "match": r"\b(if|else|while|for|do|break|return|continue|unravel)\b",
