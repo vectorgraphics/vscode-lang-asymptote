@@ -13,7 +13,13 @@ def generate_base_pattern():
         },
         {"match": r"\b(true|false)\b", "name": "constant.language"},
         {"begin": r"/\*", "end": r"\*/", "name": "comment.block"},
-        {"match": r'".*?(?<!\\)"', "name": "string.quoted.double"},
+        {"match": r'(?<!_tex\()".*?(?<!\\)"', "name": "string.quoted.double"},
+        {
+            "begin": r'_tex\("',
+            "end": r'"\)',
+            "contentName": "meta.embedded.line.latex",
+            "patterns": [{"include": "text.tex.latex"}],
+        },
         {"match": r"'.*?(?<!\\)'", "name": "string.quoted.single"},
         {
             "match": r"\b(if|else|while|for|do|break|return|continue|unravel)\b",
