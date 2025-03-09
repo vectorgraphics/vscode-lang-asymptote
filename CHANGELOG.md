@@ -1,6 +1,6 @@
 # Change Log
 
-## [2.X.X]
+## [2.1.0]
 
 - Changed how string syntax highlighting works. Now, `""` will be treated as a regular string.
   Fixes [issues/7](https://github.com/vectorgraphics/vscode-lang-asymptote/issues/7).
