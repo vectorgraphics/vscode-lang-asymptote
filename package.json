@@ -59,10 +59,7 @@
       {
         "language": "asymptote",
         "scopeName": "source.asymptote",
-        "path": "./syntaxes/asymptote.tmLanguage.json",
-        "embeddedLanguages": {
-          "meta.embedded.line.latex": "latex"
-        }
+        "path": "./syntaxes/asymptote.tmLanguage.json"
       }
     ]
   },
