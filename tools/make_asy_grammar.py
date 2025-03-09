@@ -4,8 +4,87 @@ import sys
 import re
 
 
+DBL_QUOTED_STR_MATCH = r'".*?(?<!\\)"'
+SNG_QUOTED_STR_MATCH = r"'.*?(?<!\\)'"
+VARIABLE_MATCHES = r"[a-zA-Z_]\w*"
+
+IMPORT_NAME_MATCHES = (
+    f"(?:{DBL_QUOTED_STR_MATCH})|(?:{SNG_QUOTED_STR_MATCH})|"
+    + rf"(?:{VARIABLE_MATCHES})"
+)
+
+TEMPLATED_IMPORT_TYPE_ARG_MATCH_PATTERN = {
+    "match": rf"({VARIABLE_MATCHES})=({VARIABLE_MATCHES}(?:\[])?)",
+    "captures": {
+        "1": {"name": "variable.parameter"},
+        "2": {"name": "support.class"},
+    },
+}
+
+OPERATOR_MATCH_PATTERN = {
+    "match": r"\b(operator)\b\s*.*(?!(\s|,|;))",
+    "captures": {"1": {"name": "keyword.other"}},
+}
+
+
 def generate_base_pattern():
     return [
+        {  # templated import statements
+            "begin": r"^\s*(typedef)\s+(import)\s*\(",
+            "end": r"\)",
+            "beginCaptures": {
+                "1": {"name": "storage.modifier"},
+                "2": {"name": "keyword.other"},
+            },
+            "patterns": [{"name": "variable", "match": VARIABLE_MATCHES}],
+            "name": "meta.storage",
+        },
+        {
+            # templated accesses
+            "begin": rf"^\s*(access)\s+({IMPORT_NAME_MATCHES})\s*\(",
+            "end": rf"\)\s*(as)\s+({VARIABLE_MATCHES})\s*;",
+            "beginCaptures": {
+                "1": {"name": "keyword.other"},
+                "2": {"name": "support.class"},
+            },
+            "endCaptures": {
+                "1": {"name": "keyword.other"},
+                "2": {"name": "support.class"},
+            },
+            "name": "meta.support",
+            "patterns": [TEMPLATED_IMPORT_TYPE_ARG_MATCH_PATTERN],
+        },
+        {
+            # "from filename(T1=Tx, ..." part of templated import
+            "begin": rf"^\s*(from)\s+({IMPORT_NAME_MATCHES})\s*\(",
+            "end": r"\)",
+            "beginCaptures": {
+                "1": {"name": "keyword.other"},
+                "2": {"name": "support.class"},
+            },
+            "patterns": [TEMPLATED_IMPORT_TYPE_ARG_MATCH_PATTERN],
+        },
+        {
+            # acccess f1 as fn, f2, operator!=, ...; part of templated imports
+            "begin": r"(?<=\)\s*)(access)",
+            "end": ";",
+            "beginCaptures": {
+                "1": {"name": "keyword.other"},
+            },
+            "name": "meta.support",
+            "patterns": [
+                OPERATOR_MATCH_PATTERN,
+                {
+                    "match": rf"({VARIABLE_MATCHES})\s+(as)\s+({VARIABLE_MATCHES})",
+                    "captures": {
+                        "1": {"name": "support.class"},
+                        "2": {"name": "keyword.other"},
+                        "3": {"name": "support.class"},
+                    },
+                },
+                {"match": VARIABLE_MATCHES, "name": "support.class"},
+            ],
+        },
         {"match": r"//.*$", "name": "comment.line.double-slash"},
         {
             "match": r"\b(const|static|explicit|struct|typedef)\b",
@@ -13,14 +92,8 @@ def generate_base_pattern():
         },
         {"match": r"\b(true|false)\b", "name": "constant.language"},
         {"begin": r"/\*", "end": r"\*/", "name": "comment.block"},
-        {"match": r'\s+"(.*)"', "name": "string.quoted.double"},
-        {
-            "begin": r'(?<!\s)"{1}',
-            "end": r'"{1}',
-            "name": "string.quoted.double",
-            "patterns": [{"include": "text.tex.latex"}],
-        },
-        {"match": r"\'.*?\'", "name": "string.quoted.single"},
+        {"match": DBL_QUOTED_STR_MATCH, "name": "string.quoted.double"},
+        {"match": SNG_QUOTED_STR_MATCH, "name": "string.quoted.single"},
         {
             "match": r"\b(if|else|while|for|do|break|return|continue|unravel)\b",
             "name": "keyword.control",

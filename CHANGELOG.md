@@ -1,8 +1,10 @@
 # Change Log
 
-All notable changes to the "asymptote" extension will be documented in this file.
+## [2.X.X]
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+- Changed how string syntax highlighting works. Now, `""` will be treated as a regular string.
+  Fixes [issues/7](https://github.com/vectorgraphics/vscode-lang-asymptote/issues/7).
+- Add enhanced highlighting for templated imports
 
 ## [2.0.0]
 
