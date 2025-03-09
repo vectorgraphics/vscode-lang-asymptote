@@ -13,6 +13,19 @@ IMPORT_NAME_MATCHES = (
     + rf"(?:{VARIABLE_MATCHES})"
 )
 
+TEMPLATED_IMPORT_TYPE_ARG_MATCH_PATTERN = {
+    "match": rf"({VARIABLE_MATCHES})=({VARIABLE_MATCHES}(?:\[])?)",
+    "captures": {
+        "1": {"name": "variable.parameter"},
+        "2": {"name": "support.class"},
+    },
+}
+
+OPERATOR_MATCH_PATTERN = {
+    "match": r"\b(operator)\b\s*.*(?!(\s|,|;))",
+    "captures": {"1": {"name": "keyword.other"}},
+}
+
 
 def generate_base_pattern():
     return [
@@ -28,7 +41,7 @@ def generate_base_pattern():
         },
         {
             # templated accesses
-            "begin": rf"^s*(access)\s+({IMPORT_NAME_MATCHES})\s*\(",
+            "begin": rf"^\s*(access)\s+({IMPORT_NAME_MATCHES})\s*\(",
             "end": rf"\)\s*(as)\s+({VARIABLE_MATCHES})\s*;",
             "beginCaptures": {
                 "1": {"name": "keyword.other"},
@@ -39,14 +52,37 @@ def generate_base_pattern():
                 "2": {"name": "support.class"},
             },
             "name": "meta.support",
+            "patterns": [TEMPLATED_IMPORT_TYPE_ARG_MATCH_PATTERN],
+        },
+        {
+            # "from filename(T1=Tx, ..." part of templated import
+            "begin": rf"^\s*(from)\s+({IMPORT_NAME_MATCHES})\s*\(",
+            "end": r"\)",
+            "beginCaptures": {
+                "1": {"name": "keyword.other"},
+                "2": {"name": "support.class"},
+            },
+            "patterns": [TEMPLATED_IMPORT_TYPE_ARG_MATCH_PATTERN],
+        },
+        {
+            # acccess f1 as fn, f2, operator!=, ...; part of templated imports
+            "begin": r"(?<=\)\s*)(access)",
+            "end": ";",
+            "beginCaptures": {
+                "1": {"name": "keyword.other"},
+            },
+            "name": "meta.support",
             "patterns": [
+                OPERATOR_MATCH_PATTERN,
                 {
-                    "match": rf"({VARIABLE_MATCHES})=({VARIABLE_MATCHES})",
+                    "match": rf"({VARIABLE_MATCHES})\s+(as)\s+({VARIABLE_MATCHES})",
                     "captures": {
-                        "1": {"name": "variable.parameter"},
-                        "2": {"name": "support.class"},
+                        "1": {"name": "support.class"},
+                        "2": {"name": "keyword.other"},
+                        "3": {"name": "support.class"},
                     },
-                }
+                },
+                {"match": VARIABLE_MATCHES, "name": "support.class"},
             ],
         },
         {"match": r"//.*$", "name": "comment.line.double-slash"},
